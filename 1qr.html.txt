@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Launching AR...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script>
+    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+    const isAndroid = /Android/i.test(navigator.userAgent);
+
+    const iosUSDZ = "https://ahmad-shoukat-ali.github.io/ar-hostinh/fishfinal.usdz";
+    const androidGLB = " https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.glb";
+    const webARFallback = " https://mywebar.com/p/Project_2_soqi7kpa9d";
+
+    if (isiOS) {
+      window.location.href = iosUSDZ;
+    } 
+    else if (isAndroid) {
+      window.location.href =
+        "https://arvr.google.com/scene-viewer/1.0?file=" +
+        encodeURIComponent(androidGLB) +
+        "&mode=ar_only";
+    } 
+    else {
+      window.location.href = webARFallback;
+    }
+  </script>
+</head>
+
+<body style="text-align:center; font-family:sans-serif; padding-top:40px;">
+  <h2>Launching AR Experience…</h2>
+  <p>If nothing happens, please use a mobile device.</p>
+</body>
+</html>
+
