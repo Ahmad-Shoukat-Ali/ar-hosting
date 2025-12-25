@@ -1,46 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Launching AR on Android</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<script>
+  const androidGLB = "https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.glb"; // Your 3D model
+  const myWebARLink = "https://mywebar.com/p/Project_2_soqi7kpa9d"; // Fallback link
 
-  <script>
-    const isAndroid = /Android/i.test(navigator.userAgent);
+  // Build Scene Viewer intent URL
+  const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(androidGLB)}#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;`;
 
-    // Direct GLB link hosted on GitHub Pages or another HTTPS host
-    const androidGLB = "https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.glb";
+  // Try to open Scene Viewer
+  window.location.href = sceneViewerUrl;
 
-    // Fallback link if AR is not supported
-    const webARFallback = "https://mywebar.com/p/Project_2_soqi7kpa9d";
-
-    if (isAndroid) {
-      // Scene Viewer URL
-      const sceneViewerUrl =
-        "https://arvr.google.com/scene-viewer/1.0?file=" +
-        encodeURIComponent(androidGLB) +
-        "&mode=ar_only";
-
-      // Try to launch Scene Viewer
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = sceneViewerUrl;
-      document.body.appendChild(iframe);
-
-      // Redirect to fallback after 2 seconds if AR doesn't launch
-      setTimeout(() => {
-        window.location.href = webARFallback;
-      }, 2000);
-
-    } else {
-      // Non-Android devices → fallback
-      window.location.href = webARFallback;
-    }
-  </script>
-</head>
-
-<body style="text-align:center; font-family:sans-serif; padding-top:40px;">
-  <h2>Launching AR Experience…</h2>
-  <p>If nothing happens, please open this on an Android device.</p>
-</body>
-</html>
+  // Fallback: redirect to MyWebAR after short delay
+  setTimeout(() => {
+    window.location.href = myWebARLink;
+  }, 1500); // 1.5 seconds
+</script>
