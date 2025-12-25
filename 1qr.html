@@ -2,50 +2,48 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Launching AR...</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AR Redirect</title>
+</head>
+<body>
+  <p>Launching AR experience...</p>
 
   <script>
-    const isiOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
-    const isAndroid = /Android/i.test(navigator.userAgent);
+    const myWebARLink = "https://mywebar.com/p/Project_2_soqi7kpa9d"; // Replace with your mywebar link
+    const iosUSDZ = "https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.usdz"; // iOS Quick Look
+    const androidGLB = "https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.glb"; // Android Scene Viewer
 
-    const iosUSDZ = "https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.usdz";
-    const androidGLB = "https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.glb";
-    const webARFallback = "https://mywebar.com/p/Project_2_soqi7kpa9d";
-
-    if (isiOS) {
-      // iOS Quick Look
-      window.location.href = iosUSDZ;
-    } 
-    else if (isAndroid) {
-      // Try Scene Viewer
-      const sceneViewerUrl =
-        "https://arvr.google.com/scene-viewer/1.0?file=" +
-        encodeURIComponent(androidGLB) +
-        "&mode=ar_only";
-
-      // Create a temporary iframe to check if Scene Viewer works
-      const iframe = document.createElement('iframe');
-      iframe.style.display = 'none';
-      iframe.src = sceneViewerUrl;
-      document.body.appendChild(iframe);
-
-      // After 1.5 seconds, redirect to fallback if Scene Viewer doesn't open
-      setTimeout(() => {
-        window.location.href = webARFallback;
-      }, 2500);
-    } 
-    else {
-      // Desktop or unsupported device
-      window.location.href = webARFallback;
+    function isIOS() {
+      return /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
     }
-  </script>
-</head>
 
-<body style="text-align:center; font-family:sans-serif; padding-top:40px;">
-  <h2>Launching AR Experience…</h2>
-  <p>If nothing happens, please use a mobile device with AR support.</p>
+    function isAndroid() {
+      return /Android/.test(navigator.userAgent);
+    }
+
+    function launchAR() {
+      if (isIOS()) {
+        // Open Quick Look
+        const link = document.createElement('a');
+        link.rel = 'ar';
+        link.href = iosUSDZ;
+        document.body.appendChild(link);
+        link.click();
+      } else if (isAndroid()) {
+        // Open Scene Viewer
+        const sceneViewerUrl = `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(androidGLB)}#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;`;
+        window.location.href = sceneViewerUrl;
+
+        // Fallback: redirect to myWebAR after short delay
+        setTimeout(() => {
+          window.location.href = myWebARLink;
+        }, 1500); // 1.5 seconds
+      } else {
+        // Other devices / unsupported → redirect directly
+        window.location.href = myWebARLink;
+      }
+    }
+
+    launchAR();
+  </script>
 </body>
 </html>
-
-
