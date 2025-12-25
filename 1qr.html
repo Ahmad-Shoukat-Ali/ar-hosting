@@ -14,15 +14,29 @@
     const webARFallback = "https://mywebar.com/p/Project_2_soqi7kpa9d";
 
     if (isiOS) {
+      // iOS Quick Look
       window.location.href = iosUSDZ;
     } 
     else if (isAndroid) {
-      window.location.href =
+      // Try Scene Viewer
+      const sceneViewerUrl =
         "https://arvr.google.com/scene-viewer/1.0?file=" +
         encodeURIComponent(androidGLB) +
         "&mode=ar_only";
+
+      // Create a temporary iframe to check if Scene Viewer works
+      const iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = sceneViewerUrl;
+      document.body.appendChild(iframe);
+
+      // After 1.5 seconds, redirect to fallback if Scene Viewer doesn't open
+      setTimeout(() => {
+        window.location.href = webARFallback;
+      }, 1500);
     } 
     else {
+      // Desktop or unsupported device
       window.location.href = webARFallback;
     }
   </script>
@@ -30,10 +44,6 @@
 
 <body style="text-align:center; font-family:sans-serif; padding-top:40px;">
   <h2>Launching AR Experience…</h2>
-  <p>If nothing happens, please use a mobile device.</p>
+  <p>If nothing happens, please use a mobile device with AR support.</p>
 </body>
 </html>
-
-
-
-
