@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>AR Viewer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- model-viewer -->
+  <script type="module"
+    src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js">
+  </script>
+
+  <style>
+    body {
+      margin: 0;
+      background: #000;
+      font-family: Arial, sans-serif;
+      color: #fff;
+      text-align: center;
+    }
+    model-viewer {
+      width: 100vw;
+      height: 100vh;
+    }
+    .btn {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      padding: 12px 20px;
+      background: #00c853;
+      color: #fff;
+      border-radius: 8px;
+      font-size: 16px;
+      text-decoration: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<model-viewer
+  id="viewer"
+  src="https://YOURDOMAIN/models/model.glb"
+  ios-src="https://YOURDOMAIN/models/model.usdz"
+  ar
+  ar-modes="scene-viewer quick-look webxr"
+  camera-controls
+  auto-rotate
+  shadow-intensity="1"
+  alt="3D Model">
+</model-viewer>
+
+<a id="arBtn" class="btn">View in AR</a>
+
+<script>
+  const glb = "https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.glb";
+  const usdz = "https://ahmad-shoukat-ali.github.io/ar-hosting/fishfinal.usdz";
+
+  const isAndroid = /Android/i.test(navigator.userAgent);
+  const isIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent);
+
+  const arBtn = document.getElementById("arBtn");
+
+  if (isAndroid) {
+    arBtn.onclick = () => {
+      const sceneViewerUrl =
+        `intent://arvr.google.com/scene-viewer/1.0?file=${encodeURIComponent(glb)}&mode=ar_only`
+        + `#Intent;scheme=https;package=com.google.ar.core;action=android.intent.action.VIEW;end;`;
+      window.location.href = sceneViewerUrl;
+    };
+  } 
+  else if (isIOS) {
+    arBtn.href = usdz;
+  } 
+  else {
+    arBtn.style.display = "none";
+  }
+</script>
+
+</body>
+</html>
